@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Library ${{ github.ref_name }}
+
+  publish:
+    name: Publish
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rokit
+        uses: https://github.com/CompeyDev/setup-rokit@v0.1.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pesde Login
+        run: pesde auth login --token "${{ secrets.PESDE_AUTH_TOKEN }}"
+
+      - name: Pesde Publish
+        run: pesde publish -y

@@ -1,0 +1,68 @@
+name: Continous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rokit
+        uses: https://github.com/CompeyDev/setup-rokit@v0.1.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint
+        run: |
+          selene lib/
+
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rokit
+        uses: https://github.com/CompeyDev/setup-rokit@v0.1.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check Code Style
+        run: |
+          stylua --check --respect-ignores lib/
+
+  test:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Luau
+        uses: https://github.com/encodedvenom/install-luau@v4.3
+        with:
+          version: "0.678"
+          verbose: true
+
+      - name: Run Unit Tests
+        id: run_tests
+        run: |
+          output=$(luau test/unit.luau)
+          echo "$output"
+          if [[ "$output" == *"0 fails"* ]]; then
+            echo "Unit Tests Passed"
+          else
+            echo "Error: One or More Unit Tests Failed."
+            exit 1
+          fi

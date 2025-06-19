@@ -1,0 +1,54 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "lsp": {
+    "luau-lsp": {
+      "settings": {
+        "luau-lsp": {
+          "completion": {
+            "imports": {
+              "enabled": true,
+              "suggestRequires": true,
+              "stringRequires": {
+                "enabled": true
+              }
+            }
+          },
+          "ignoreGlobs": ["types/**"]
+        },
+        "ext": {
+          "definitions": ["./types/zune.d.luau", "./types/vector.d.luau"],
+          "fflags": {
+            "enable_new_solver": true
+          },
+          "roblox": {
+            "enabled": false,
+            "security_level": "roblox_script"
+          },
+          "binary": {
+            "ignore_system_version": false
+          }
+        }
+      }
+    },
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": ["*/.luaurc"],
+              "url": "https://raw.githubusercontent.com/JohnnyMorganz/luau-lsp/refs/heads/main/editors/code/schemas/luaurc.json"
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "file_types": {
+    "Luau": ["lua"],
+    "JSON": [".luaurc"]
+  }
+}
