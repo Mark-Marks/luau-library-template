@@ -1,6 +1,6 @@
 # Luau Library Template
 
-A Luau library template. A Roblox variation can be found on the [`roblox` branch](https://github.com/Mark-Marks/luau-library-template/tree/roblox).
+A Luau library template. A Roblox variation can be found [here](https://github.com/Mark-Marks/roblox-library-template).
 
 Features:
   - [Zune](https://github.com/scythe-technology/zune) based scripts and CI
